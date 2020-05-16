@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_spring-boot-03-logging" default="compile.module.spring-boot-03-logging">
+  <dirname property="module.spring-boot-03-logging.basedir" file="${ant.file.module_spring-boot-03-logging}"/>
+  
+  <property name="module.jdk.home.spring-boot-03-logging" value="${jdk.home.1.8}"/>
+  <property name="module.jdk.bin.spring-boot-03-logging" value="${jdk.bin.1.8}"/>
+  <property name="module.jdk.classpath.spring-boot-03-logging" value="jdk.classpath.1.8"/>
+  
+  <property name="compiler.args.spring-boot-03-logging" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="spring-boot-03-logging.output.dir" value="${module.spring-boot-03-logging.basedir}/out/production/spring-boot-03-logging"/>
+  <property name="spring-boot-03-logging.testoutput.dir" value="${module.spring-boot-03-logging.basedir}/out/test/spring-boot-03-logging"/>
+  
+  <path id="spring-boot-03-logging.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="spring-boot-03-logging.module.production.classpath">
+    <path refid="${module.jdk.classpath.spring-boot-03-logging}"/>
+  </path>
+  
+  <path id="spring-boot-03-logging.runtime.production.module.classpath">
+    <pathelement location="${spring-boot-03-logging.output.dir}"/>
+  </path>
+  
+  <path id="spring-boot-03-logging.module.classpath">
+    <path refid="${module.jdk.classpath.spring-boot-03-logging}"/>
+    <pathelement location="${spring-boot-03-logging.output.dir}"/>
+  </path>
+  
+  <path id="spring-boot-03-logging.runtime.module.classpath">
+    <pathelement location="${spring-boot-03-logging.testoutput.dir}"/>
+    <pathelement location="${spring-boot-03-logging.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.spring-boot-03-logging">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.spring-boot-03-logging">
+    <patternset refid="excluded.from.module.spring-boot-03-logging"/>
+  </patternset>
+  
+  
+  <target name="compile.module.spring-boot-03-logging" depends="compile.module.spring-boot-03-logging.production,compile.module.spring-boot-03-logging.tests" description="Compile module spring-boot-03-logging"/>
+  
+  <target name="compile.module.spring-boot-03-logging.production" depends="register.custom.compilers" description="Compile module spring-boot-03-logging; production classes"/>
+  
+  <target name="compile.module.spring-boot-03-logging.tests" depends="register.custom.compilers,compile.module.spring-boot-03-logging.production" description="compile module spring-boot-03-logging; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.spring-boot-03-logging" description="cleanup module">
+    <delete dir="${spring-boot-03-logging.output.dir}"/>
+    <delete dir="${spring-boot-03-logging.testoutput.dir}"/>
+  </target>
+</project>

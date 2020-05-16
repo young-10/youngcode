@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--导入thymeleaf的名称空间-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>成功</h1>
+    <!--th:text 将当前文本中的内容显示为
+    th:该变任意属性的属性值-->
+    <div id="div01" class="div01" th:text="${msg}" th:id="dic02" th:class="div02" 这是显示欢迎信息</div>
+    <h1>成功！</h1>
+    <!--th:text 将div里面的文本内容设置为 -->
+    <hr/>
+    <div th:text="${msg}"></div>
+    <!--不会转义特殊字符-->
+    <div th:utext="${msg}"></div>
+    <hr/>
+    <!-- th:each每次遍历都会生成当前这个标签： 3个h4 -->
+    <h4 th:text="${user}"  th:each="user:${users}"></h4>
+<hr/>
+<h4>
+    <span th:each="user:${users}"> [[${user}]] </span>
+</h4>
+<form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit"/>
+</form>
+</body>
+</html>
