@@ -1,0 +1,68 @@
+package code.young.bean;
+
+public class Person {
+	private String name;
+	private Integer  age;
+	private char gender;
+	private String email;
+
+	public Person() {
+		super();
+		System.out.println("Person创建了");
+	}
+
+	public Person(String name, int age, char gender) {
+		System.out.println("三个参数的构造器");
+		this.name = name;
+		this.age = age;
+		this.gender = gender;
+	}
+
+	public Person(String name, int age, char gender, String email) {
+		super();
+		this.name = name;
+		this.age = age;
+		this.gender = gender;
+		this.email = email;
+		System.out.println("有参构造器被调用");
+	}
+
+	public String toString() {
+		return "Person [name=" + name + ", age=" + age + ", gender=" + gender
+				+ ", email=" + email + "]";
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+//		System.out.println("setName方法被调用");
+		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public char getGender() {
+		return gender;
+	}
+
+	public void setGender(char gender) {
+		this.gender = gender;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+}

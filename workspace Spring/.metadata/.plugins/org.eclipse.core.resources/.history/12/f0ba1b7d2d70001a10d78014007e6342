@@ -1,0 +1,46 @@
+package com.young.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.young.dao.BookDao;
+@Service
+public class BookService {
+	@Autowired
+	BookDao bookDao;
+	/**
+	 * 事务细节：
+	 * isolation-Isolation :事务的隔离级别
+	 *  propagation-Propagation 事务的传播行为
+	 *  
+	 *  rollbackFor() -Class[] :哪些异常事务需要回滚
+	 *  rollbackForClass-NameString[] 
+	 *  noRollbackFor-Class[] 哪些异常事务可以不回滚
+	 *  noRollbackForClassName-String[] String[](String全类名)
+	 *  
+	 *  timeout-int   超时：事务超出指定时长后自动终止并回滚
+	 *  readOnly--boolean 设置事务为只读事务
+	 *  可以进行事务优化
+	 *  readOnly=true，加快查询速度，不用管事务那一堆操作了
+	 * @param username
+	 * @param isbn
+	 */
+	@Transactional(timeout=3,readOnly=true)
+	public void checkout(String username, String isbn) {
+		//1、减库存
+		bookDao.updateStock(isbn);
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int price = bookDao.getPrice(isbn);
+		//2、减余额
+		bookDao.updatebalance(username, price);
+		int i = 10/0;
+	}
+}

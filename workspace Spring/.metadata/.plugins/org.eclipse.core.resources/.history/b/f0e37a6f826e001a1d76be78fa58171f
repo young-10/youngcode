@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="car" class="code.young.bean.Car">
+		<property name="carName" value="Benz"></property>
+		<property name="color" value="blue"></property>
+	</bean>
+	<!--为Person里面的自定义属性赋值】
+		property:手动赋值
+		自动装配：
+	  -->
+	<bean id="person" class="code.young.bean.Person">
+		<property name="car" ref="car"></property>
+	</bean>
+</beans>

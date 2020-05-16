@@ -1,0 +1,15 @@
+package com.young.test;
+
+import java.util.Arrays;
+
+import org.junit.Test;
+
+import com.young.Impl.CalculatorImpl;
+import com.young.inter.Calculator;
+
+public class AOPtest {
+	@Test
+	public void test() {
+	}
+
+}

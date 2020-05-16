@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="car" class="code.young.bean.Car">
+		<property name="carName" value="Benz"></property>
+		<property name="color" value="blue"></property>
+	</bean>
+	<!--为Person里面的自定义属性赋值】
+		property:手动赋值
+		自动装配：
+		autowire="default":不自动装配，不自动为car赋值
+		autowire="byName":按照名字
+		private Car car:以属性名作为id去容器中找到这个组件，给他赋值
+		autowire="byType"
+		private Car car:以属性的类型作为查找依据去容器中找到这个组件
+		car=ioc.getBean(Car.class),如果容器中有多个这个组件，会报错，没找到，会装配null
+		autowire="constructor"
+		autowire="no":不自动装配，不自动为car赋值
+	  -->
+	<bean id="person" class="code.young.bean.Person" autowire="constructor">
+<!-- 		<property name="car" ref="car"></property> -->
+	</bean>
+</beans>

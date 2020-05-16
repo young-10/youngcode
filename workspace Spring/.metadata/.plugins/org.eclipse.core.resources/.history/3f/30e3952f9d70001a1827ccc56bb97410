@@ -1,0 +1,35 @@
+package com.young.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class MultiService {
+	@Autowired
+	private BookService bookService;
+	/**
+	 *  REQUIRED：当前事务和之前事务共用一个事务
+		checkout()   ---Multx()----updatePrice()
+		REQUIRES_NEW：当前事务总是使用一个新的事务，如果已经有事务，会将之前的事务挂起
+                      开启multx------multx()-------提交multx()
+		开启multx()事务--挂起multx()事务-开启checkout()事务-checkout()-
+		checkout()事务提交-开启multx()事务-挂起multx（）事务-开启updatePrice()事务
+		-updatePrice()-提交updatePrice事务-开启multx事务
+	 */
+	@Transactional
+	public void multiTx(){
+		//都是可以设置的
+		//传播行为来设置这个事务方法是不是和之前的大事务共享一个事务（使用同一条连接）
+		//REQUIRES_NEW
+		//这是一个新事物，不受上一个事务的影响，发生异常时不会回滚
+//		bookService.checkout("Tom", "ISBN-001");
+//		//REQUIRED
+//		bookService.updatePrice("ISBN-002", 998);
+		//REQUIRES_NEW
+		bookService.checkout("Tom", "ISBN-001");
+		//REQUIRES_NEW
+		bookService.updatePrice("ISBN-002", 998);//此时都不会回滚
+		int i=10/0;
+	}
+}

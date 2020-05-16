@@ -1,0 +1,14 @@
+package com.young.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.young.dao.UserDao;
+@Service
+public class UserService {
+	@Autowired
+	UserDao userDao;
+	public void save(){
+		userDao.save();
+	}
+}

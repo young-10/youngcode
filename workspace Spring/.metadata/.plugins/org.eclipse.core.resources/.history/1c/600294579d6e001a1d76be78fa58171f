@@ -1,0 +1,33 @@
+package com.young.test;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.young.servlet.BookServlet;
+
+
+public class IOCtest {
+	ApplicationContext ioc = new ClassPathXmlApplicationContext("applicationContext.xml");
+	/**
+		Caused by: java.lang.ClassNotFoundException: 
+		org.springframework.aop.TargetSource
+		
+		使用注解加入到容器中的组件，和使用配置加入到容器中的组件行为默认是一致大的
+		1）组件的id，默认就是组件的类名的首字母小写
+		2）组件的作用域：默认是单例的
+		@Repository("bookdaohahaha")
+		<bean id="bookDao" class="com.young.dao.BookDao"></bean>
+	 */
+	@Test
+	public void test() {
+		Object bean = ioc.getBean("bookDao");
+		Object bean1 = ioc.getBean("bookDao");
+		System.out.println(bean==bean1);
+	}
+	@Test
+	public void test02(){
+		BookServlet bean = ioc.getBean(BookServlet.class);
+		bean.doGet();
+	}
+
+}

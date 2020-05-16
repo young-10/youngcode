@@ -1,0 +1,14 @@
+package code.young.factory;
+
+import code.young.bean.AirPlane;
+
+public class AirPlaneStaticFactory {
+	public static AirPlane  getAirPlane(String jzName){
+		AirPlane airPlane = new AirPlane();
+		airPlane.setFdj("波音");
+		airPlane.setJzName(jzName);
+		airPlane.setPersonName(300);
+		airPlane.setYc("4627");
+		return airPlane;
+	}
+}

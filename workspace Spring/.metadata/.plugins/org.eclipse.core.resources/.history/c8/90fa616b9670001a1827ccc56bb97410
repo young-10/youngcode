@@ -1,0 +1,114 @@
+package com.young.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.young.dao.BookDao;
+@Service
+public class BookService {
+	@Autowired
+	BookDao bookDao;
+	/**
+	 * 事务细节：
+	 * isolation-Isolation :事务的隔离级别
+	 * 隔离级别：
+	 * - 事务的并发问题：
+
+  -  脏读: 对于两个事务 T1, T2, T1 读取了已经被 T2 更新但还没有被提交的字段. 之后, 若 T2 回滚, T1读取的内容就是临时且无效的. 
+  - 不可重复读: 对于两个事务T1, T2, T1 读取了一个字段, 然后 T2 更新了该字段. 之后, T1再次读取同一个字段, 值就不同了.
+  -  幻读: 对于两个事务T1, T2, T1 从一个表中读取了一个字段, 然后 T2 在该表中插 入了一些新的行. 之后, 如果 T1 再次读取同一个表, 就会多出几行. 
+
+- 数据库事务的隔离性: 数据库系统必须具有隔离并发运行各个事务的能力, 使它们不会相互影响, 避免各种并发问题. 
+
+- 一个事务与其他事务隔离的程度称为隔离级别. 数据库规定了多种事务隔 离级别, 不同隔离级别对应不同的干扰程度, 隔离级别越高, 数据一致性就 越好, 但并发性越弱.
+
+- 数据库提供的4种隔离级别：
+
+  - read uncommited:允许事务读取未被其他事务提交的变更。脏读、不可重复读、幻读的问题都会出现
+  - readcommited:只允许事务读取读取已经被其他事务提交的变更。可以避免脏读、但不可重复读和幻读问题仍然会出现。
+  - repeatable read:确保事务可以多次从一个字段中读取相同的值。在这个事务持续期间，禁止其他事务对这个字段进行更新。可避免脏读和不可重复读，但幻读的问题仍然存在。
+  - serializable:（不会用到）确保事务可以从一个表中读取相同的行。在这个事务持续期间。禁止其他事务对该表执行插入，更新和删除操作，所有的并发问题都可避免，但性能十分低下。
+	 * 
+	 *  
+	 *  
+	 *  rollbackFor() -Class[] :哪些异常事务需要回滚，让原来默认不回滚的异常让不回滚
+	 *  rollbackForClass-NameString[] 
+	 *  noRollbackFor-Class[] 哪些异常事务可以不回滚
+	 *  noRollbackForClassName-String[] String[](String全类名)
+	 *  异常分类：
+	 *  运行时异常：可以不用处理，默认都会回滚
+	 *  编译时异常：try-catch 或者throws
+	 *  	默认不回滚
+	 *  事务回滚：默认发生运行时异常回滚，编译时异常不回滚
+	 *   noRollbackFor-Class[] 哪些异常事务可以不回滚,让原来默认回滚的异常让其不回滚
+	 *  timeout-int   超时：事务超出指定时长后自动终止并回滚
+	 *  readOnly--boolean 设置事务为只读事务
+	 *  可以进行事务优化
+	 *  readOnly=true，加快查询速度，不用管事务那一堆操作了
+	 * @param username
+	 * @param isbn
+	 */
+	/**
+	 * 修改MySQL隔离级别
+SET [SESSION | GLOBAL] TRANSACTION ISOLATION LEVEL {READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE}
+
+如：SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED；
+
+查询MySQL的隔离级别
+SELECT @@global.tx_isolation; //查询全局隔离级别
+SELECT @@session.tx_isolation;//查询当前会话隔离级别 
+SELECT @@tx_isolation;//同上
+
+
+事务操作
+开启事务  start transaction;
+提交事务  commit;
+回滚事务  rollback;
+	 * @param username
+	 * @param isbn
+	 * 
+	 * propagation-Propagation 事务的传播行为
+	 * 传播行为（事务的传播+事务的行为）
+	 * 	如果有多个事务嵌套运行，子事务是否和大事务共用异构网事务
+	 * AService{
+	 * 	tx_a(){
+	 *		a的一些方法
+	 * 		tx_b(){}
+	 * 		tx_c(){}
+	 * }
+	 * 
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
+//	@Transactional(timeout=3,readOnly=false,noRollbackFor={ArithmeticException.class,NullPointerException.class})
+	@Transactional
+	public void checkout(String username, String isbn) {
+		//1、减库存
+		bookDao.updateStock(isbn);
+		int price = bookDao.getPrice(isbn);
+		//2、减余额
+		bookDao.updatebalance(username, price);
+	}
+	/**
+	 * 根据业务特性来调整的事务级别
+	 * @param isbn
+	 * @return
+	 */
+	@Transactional(readOnly=true,isolation=Isolation.READ_COMMITTED)
+	public int getPrice(String isbn){
+		return bookDao.getPrice(isbn);
+	}
+	
+	@Transactional
+	public void updatePrice(String isbn,int price){
+		bookDao.updatePrice(isbn, price);
+	}
+	
+}

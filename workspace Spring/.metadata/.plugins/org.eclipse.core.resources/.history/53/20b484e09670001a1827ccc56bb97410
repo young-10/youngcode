@@ -1,0 +1,18 @@
+package com.young.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class MultiService {
+	@Autowired
+	private BookService bookService;
+	
+	@Transactional
+	public void multiTx(){
+		
+		bookService.checkout("Tom", "ISBN-001");
+		bookService.updatePrice("ISBN-002", 998);
+	}
+}

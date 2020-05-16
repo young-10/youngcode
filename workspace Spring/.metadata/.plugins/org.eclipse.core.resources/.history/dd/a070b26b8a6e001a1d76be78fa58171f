@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 实验15：通过注解分别创建Dao、Service、Controller（控制器，控制网站跳转（servlet））★ 
+		通过给bean上添加某些注解，可以快速的将bean加入到ioc容器中
+		某个类上添加上任何一个注解都可以将这个组件快速的加入到ioc容器中
+		Spring有四个注解
+		@Controller
+		@Service
+		@Repository
+		@Component
+	-->
+
+</beans>

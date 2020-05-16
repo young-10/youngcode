@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 实验4：正确的为各种属性赋值
+   测试使用null值 、 ctrl+shift+/是xml中注释的快捷键
+    引用类型赋值（引用其他bean、引用内部bean）
+    集合类型赋值（List、Map、Properties）、
+    util名称空间创建集合类型的bean
+    级联属性赋值 -->
+    <bean id="book02" class="code.young.bean.book">
+    	<property name="bookName" value="东游记"></property>
+    	<property name="author" value="陆冬病"></property>
+    </bean>
+    <bean id="car01" class="code.young.bean.Car">
+    	<property name="carName" value="宝马"></property>
+    	<property name="price" value="12000"></property>
+    	<property name="color" value="红色"></property>
+    </bean>
+    <bean id="person01" class="code.young.bean.Person">
+    	<property name="name"><null></null></property>
+    	<!-- ref代表引用外面的一个值  car=ioc.getbean("car01)-->
+    	<!-- <property name="car" ref="car01"></property> -->
+    	<property name="car">
+	    	<!--对象我么可以使用bean标签来才创建  -->
+	    	<bean class="code.young.bean.Car">
+	    		<property name="color" value="白色"></property>
+	    	</bean>    	
+    	</property>
+    </bean>  
+    <bean id="person02" class="code.young.bean.Person">
+    	<!-- 如何为list属性赋值 -->
+    	<property name="books">
+    		<!--相当于books=new ArrayList<book>  -->
+    		<list>
+    		<!--list标签体中添加每一个元素  -->
+    			<!--内部bean，只能内部使用，不写id也可以  -->
+    			<bean  class="code.young.bean.book" p:bookName="西游记" p:author="吴承恩"></bean>
+   			 	<!-- 引用外部一个元素 -->		
+   			 	<ref bean="book02"/>
+    		</list>
+    	</property>
+    	
+    	
+		<property name="map">
+    	<!--  如何为map属性赋值
+    		maps=new LinkedHashMap<>()  -->
+    		<map>
+    			<!-- 一个entry代表一个键值对 -->
+    			<entry key="key1" value="value1"></entry>
+    			<entry key="key2" value="value2"></entry>
+    			<entry key="key3" value-ref="book02"></entry>
+    			<entry key="key4">
+			    	<bean class="code.young.bean.Car">
+			    		<property name="color" value="白色"></property>
+			    		<property name="carName" value="奔驰"></property>
+			    	</bean>   
+    			</entry>
+    			<entry key="key5">
+    				<map></map>
+    			</entry>
+    		</map>
+    	</property>
+    </bean>
+</beans>

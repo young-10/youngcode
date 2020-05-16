@@ -1,0 +1,44 @@
+package com.young.test;
+
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.young.Impl.CalculatorImpl;
+import com.young.inter.Calculator;
+
+public class AOPtest {
+	ApplicationContext ioc = new ClassPathXmlApplicationContext("applicationContext.xml");
+	/**
+	 * 通知方法的执行舒徐：
+	 * 正常执行
+	 * 异常执行
+	 */
+	@Test
+	public void test03(){
+		CalculatorImpl bean = ioc.getBean(CalculatorImpl.class);
+		bean.div(4, 0);
+	}
+	@Test
+	public void test02(){
+		CalculatorImpl bean = ioc.getBean(CalculatorImpl.class);
+		bean.add(1, 2);
+		//class com.young.Impl.CalculatorImpl$$EnhancerByCGLIB$$647ebba
+		//还是一个代理对象，cglib帮我们创建代理对象爱，没有接口也能创建对象
+		System.out.println(bean.getClass());
+	}
+	@Test
+	public void test() {
+		//1、从ioc容器中拿到目标对象，注意，如果使用类型，一定要用他的接口类型，不要用他本类
+		//细节一：com.young.Impl.CalculatorImpl@6ae5aa72
+		//class com.sun.proxy.$Proxy12
+		//AOP的底层就是动态代理，容器中保存的组件是他的代理对象，$Proxy12当然不是本类的类型，因为代理对象和被代理对象的唯一关联就是同一个接口
+		Calculator calculator = ioc.getBean(Calculator.class);
+		calculator.add(4, 5);
+		System.out.println(calculator);//com.young.Impl.CalculatorImpl@6ae5aa72
+		System.out.println(calculator.getClass());//class com.sun.proxy.$Proxy12
+		
+
+	}
+
+}

@@ -1,0 +1,14 @@
+package com.young.servlet;
+
+import org.springframework.stereotype.Controller;
+
+import com.young.service.BookService;
+
+@Controller
+public class BookServlet {
+	private BookService bookService;
+	
+	public void doGet(){
+		bookService.save();
+	}
+}

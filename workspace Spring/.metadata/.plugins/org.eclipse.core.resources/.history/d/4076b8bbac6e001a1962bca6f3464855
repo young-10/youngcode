@@ -1,0 +1,27 @@
+package com.young.test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.young.service.BookService;
+import com.young.service.UserService;
+
+public class IOCtest {
+		ApplicationContext ioc = new ClassPathXmlApplicationContext("applicationContext.xml");
+		
+	@Test
+	public void test() {
+		BookService bookService = ioc.getBean(BookService.class);
+		UserService userService = ioc.getBean(UserService.class);
+		bookService.save();
+		userService.save();
+		//父类的类型：com.young.service.BaseService
+		//带泛型的父类类型：com.young.service.BaseService<com.young.Bean.Book>
+		//Spring中可以使用带泛型的父类类型来去认这个子类的类型
+		System.out.println(bookService.getClass().getGenericSuperclass());
+	}
+
+}

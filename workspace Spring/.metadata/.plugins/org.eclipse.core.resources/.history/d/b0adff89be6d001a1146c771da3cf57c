@@ -1,0 +1,25 @@
+package code.young.test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import code.young.bean.Person;
+
+public class IOCtest {
+	/**
+	 * 从容器中拿到这个组件
+	 */
+	@Test
+	public void test() {
+		//ApplicationContext代表ioc容器
+		//ClassPathXmlApplicationContext：当前应用配置的xml文件在ClassPathXmlApplicationContext
+		//根据spring配置文件得到ioc容器对象
+		ApplicationContext ioc = new ClassPathXmlApplicationContext("ioc.xml");
+		Person bean = (Person) ioc.getBean("person01");
+		System.out.println(bean);
+	}
+
+}

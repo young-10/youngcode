@@ -1,0 +1,20 @@
+package code.young.test;
+import org.junit.Test;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class IOCtest {
+	ConfigurableApplicationContext ioc=new ClassPathXmlApplicationContext("applicationContext1.xml");
+	/**
+	 * Bean 的生命周期
+	 * 给构造器---初始化方法---销毁方法
+	 */
+	@Test
+	public void test() {
+		Object bean = ioc.getBean("book01");
+		System.out.println(bean);
+		System.out.println("容器关闭了");
+		ioc.close();
+	}
+
+}

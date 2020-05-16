@@ -1,0 +1,132 @@
+package com.young.utils;
+
+import java.util.Arrays;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
+
+import com.sun.xml.internal.ws.api.pipe.Pipe;
+/**
+ * 如何将这个类（切面类）中的这些方法（通知方法）动态的在目标方法运行的各个位置切入
+ * @author young
+commons-logging-1.1.3.jar
+spring-aop-4.0.0.RELEASE.jar
+spring-beans-4.0.0.RELEASE.jar
+spring-context-4.0.0.RELEASE.jar
+spring-core-4.0.0.RELEASE.jar
+spring-expression-4.0.0.RELEASE.jar
+spring-aspects-4.0.0.RELEASE.jar:基础版
+
+加强版的面向切面编程（即目标对象没有实现任何接口也能创建动态代理）
+com.springsource.net.sf.cglib-2.2.0.jar
+com.springsource.org.aopalliance-1.0.0.jar
+com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar
+ */
+@Aspect//切面，没有切面就没有动态代理
+@Component
+public class LogUtils {
+	/**
+	 * 告诉Spring每个方法都什么时候运行
+	 * @Before 在目标方法之前运行 :前置通知
+	 * @After 在目标方法结束之后：后置通知
+	 * @AfterReturning  在目标方法正常返回之后运行： 返回通知
+	 * @AfterThrowing  在目标方法发生异常运行：异常通知
+	 * @Around:环绕通知，围绕着方法执行
+	 * 环绕通知：是Spring中最强大的通知
+	 * 环绕：动态代理
+	 * 四合一通知就是环绕通知
+	 * 环绕通知有一个参数：ProceedingJoinPoint pjp 
+	 * 
+	 * 抽取可重用的切入点表达式：
+	 * 1、随便声明一个没有实现的返回void的空方法
+	 * 2、给方法上标记上PointCut注解
+	 *
+	 */
+	@Pointcut("execution(public int com.young.Impl.CalculatorImpl.*(..))")
+	public void hahaPoint(){}
+	@Around("hahaPoint()")
+	public Object myAround(ProceedingJoinPoint pjp) throws Throwable{
+		//就是利用反射调用目标方法即可，就是method.invoke
+		Object[] args = pjp.getArgs();
+		Object proceed = pjp.proceed(args);
+		System.out.println("环绕通知执行了》》》》");
+		return proceed;
+	}
+	/**
+	 * 切入点表达式的写法：
+	 * 固定格式：execution(访问权限符 返回值类型 方法全类名（参数表）)
+	 * 通配符：*
+	 * 1）匹配一个或多个字符（public int com.young.Impl.CalculatorImpl.*(int, int))）
+	 * 2）匹配任意一个参数，第一个是int类型，另一个任意
+	 * 3）只能匹配一层路径
+	 * 4）权限位置的*不写，权限位置不写就行
+	 * public int com.young.Impl.CalculatorImpl.*(int, *))
+	 * 通配符：..
+	 * public int com.young..CalculatorImpl.*(..))
+	 * 1）匹配任意多个参数，任意类型参数
+	 * 2）匹配任意多层路径
+	 * 
+	 * 最精确的：execution(public int com.young.Impl.CalculatorImpl.*(int, int))
+	 * 最模糊的：execution(* *.*(..)),不能写
+	 * 
+	 * &&、||、!
+	 * && ：execution(public int com.young.Impl.CalculatorImpl.*(int, int))&&execution(public int com.young.Impl.CalculatorImpl.*(*, *))
+	 * 两者都得满足
+	 * ||：满足任意一个就行
+	 */
+	/**
+	 * 细节四：我么可以在通知方法运行的时候，拿到目标方法的详细信息
+	 * 1）只需要为通知方法的参数列表上写一个参数
+	 * JoinPoint joinPoint：封装了当前方法的详细信息
+	 * 2)告诉Spring哪个参数来接收返回值
+	 * returning="result"
+	 * Spring对通知方法的要求不严格
+	 * 唯一的要求就是方法的参数列表要一致
+	 * 通知方法时Spring利用反射调用的，每次方法调用得确定这个方法的参数表的值
+	 * 参数表的每一个参数，Spring一定要知道
+	 * 
+	 */
+	//想在目标方法正常执行之前运行，写切入点表达式
+	//execution(访问权限符 返回值类型 方法签名)
+//	@Before("hahaPoint()")
+//	public static void logstart(JoinPoint joinPoint) {
+//		//获取到目标方法运行时使用的参数
+//		Object[] args = joinPoint.getArgs();
+//		//获取到方法签名
+//		Signature signature = joinPoint.getSignature();
+//		String name = signature.getName();
+//		System.out.println(name+"方法开始执行，用的参数列表为"+Arrays.asList(args));
+//	}
+//	//想在目标方法正常返回之后运行
+//	//告诉Spring，object用来接收返回值  returning="result"
+//	@AfterReturning(value="hahaPoint()",returning="result")
+//	public static void logreturn(JoinPoint joinPoint,Object result) {
+//		Signature signature = joinPoint.getSignature();
+//		String name = signature.getName();
+//		System.out.println(name+"方法执行完成，运行结果为"+result);
+//	}
+//	//想在目标方法发生异常运行
+//	@AfterThrowing(value="hahaPoint()",throwing="e")
+//	public static void logException(JoinPoint joinPoint,Exception e) {
+//		Signature signature = joinPoint.getSignature();
+//		String name = signature.getName();
+//		System.out.println(name+"方法出现异常,异常为"+e.getMessage());
+//	}
+//	
+//	//想在目标方法执行结束后运行
+//	@After("hahaPoint()")
+//	public static void logEnd(JoinPoint joinPoint) {
+//		Signature signature = joinPoint.getSignature();
+//		String name = signature.getName();
+//		System.out.println(name+"方法最终结束了");
+//	}
+}

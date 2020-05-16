@@ -1,0 +1,20 @@
+package com.young.test;
+
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.young.inter.Calculator;
+
+public class AOPtest {
+	ApplicationContext ioc = new ClassPathXmlApplicationContext("applicationContext.xml");
+	@Test
+	public void test() {
+		//1、从ioc容器中拿到目标对象，注意，如果使用类型，一定要用他的接口类型，不要用他本类
+		Calculator Calculator = ioc.getBean(Calculator.class);
+		Calculator.add(4, 5);
+		System.out.println(calculator);
+		System.out.println(Calculator.getClass());
+	}
+
+}

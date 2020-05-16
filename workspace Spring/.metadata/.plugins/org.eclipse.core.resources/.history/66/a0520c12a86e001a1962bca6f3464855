@@ -1,0 +1,12 @@
+package com.young.service;
+
+import org.springframework.stereotype.Service;
+
+import com.young.dao.BookDao;
+@Service
+public class BookService {
+	BookDao bookDao;
+	public void save(){
+		bookDao.save();
+	}
+}

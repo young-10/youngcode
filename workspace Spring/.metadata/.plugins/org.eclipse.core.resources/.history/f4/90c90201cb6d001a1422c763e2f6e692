@@ -1,0 +1,30 @@
+package code.young.test;
+
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import code.young.bean.Person;
+
+public class IOCtest1 {
+	ApplicationContext ioc = new ClassPathXmlApplicationContext("ioc.xml");
+//	实验2：根据bean的类型从IOC容器中获取bean的实例★
+	/**
+	 * org.springframework.context.support.ClassPathXmlApplicationContext prepareRefresh
+		如果ioc中Person 的类型有多个，使用类型查找会报错
+
+	 */
+	@Test
+	public void test02(){
+//		实验2：根据bean的类型从IOC容器中获取bean的实例★
+//		Person bean = ioc.getBean(Person.class);
+//		System.out.println(bean);//如果ioc中Person 的类型有多个，使用类型查找会报错
+		Person bean2 = ioc.getBean("person02", Person.class);
+		System.out.println(bean2);
+		
+		Person bean = ioc.getBean("person06",Person.class);
+		System.out.println(bean );
+	
+	}
+	
+}

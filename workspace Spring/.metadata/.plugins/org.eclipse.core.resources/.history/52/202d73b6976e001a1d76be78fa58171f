@@ -1,0 +1,15 @@
+package com.young.test;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
+public class IOCtest {
+	ApplicationContext ioc = new ClassPathXmlApplicationContext("applicationContext.xml");
+	@Test
+	public void test() {
+		ioc.getBean(arg0)
+	}
+
+}

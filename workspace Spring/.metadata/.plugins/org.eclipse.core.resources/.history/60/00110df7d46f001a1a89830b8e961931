@@ -1,0 +1,55 @@
+package com.young.test;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+
+
+public class JdbcTemplateTest {
+	ApplicationContext ioc=new ClassPathXmlApplicationContext("applicationContext.xml");
+	JdbcTemplate jdbcTemplate = ioc.getBean(JdbcTemplate.class);
+	/**
+	 * <!--实验1：测试数据源 -->
+	 * @throws SQLException
+	 */
+	@Test
+	public void test01() throws SQLException{
+		DataSource datasource = ioc.getBean(DataSource.class);
+		Connection connection = datasource.getConnection();
+		System.out.println(connection);
+	}
+	@Test
+	public void test02() throws SQLException{
+		JdbcTemplate bean = ioc.getBean(JdbcTemplate.class);
+		System.out.println(bean);
+	}
+	/**
+	 * 实验2：将emp_id=5的记录的salary字段更新为1300.00
+	 * @throws SQLException
+	 */
+	@Test
+	public void test03() throws SQLException{
+		String sql="UPDATE employee SET salary=? WHERE emp_id=?";
+		int update = jdbcTemplate.update(sql, 1300.00,5);
+		System.out.println("更新成功"+update);
+	}
+	/**
+	 * 实验3：批量插入
+	 */
+	@Test
+	public void test04() throws SQLException{
+		String sql="INSERT INTO employee(emp_name,salary) VALUE(?,?)";
+		//List<Object> 
+		List<Object[]> batchArgs = new ArrayList<>();
+		jdbcTemplate.batchUpdate(sql, batchArgs);
+	}
+}

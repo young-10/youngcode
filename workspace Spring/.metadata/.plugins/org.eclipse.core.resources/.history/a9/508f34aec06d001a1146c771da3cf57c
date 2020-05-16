@@ -1,0 +1,36 @@
+package code.young.test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import code.young.bean.Person;
+
+public class IOCtest {
+	
+	/**
+	 * 存在的几个问题
+	 * 1）src源码包开始路径称为类路径的开始
+	 * 源码包里面的东西都会被合并在类路径里面
+	 * Java：/bin/
+	 * web:/WEB_INF/classes/
+	 * 2)先导包commons-logging-1.1.3.jar（依赖）
+	 * 3)再创建配置文件
+	 */
+	/**
+	 * 从容器中拿到这个组件
+	 */
+	@Test
+	public void test() {
+		//ApplicationContext代表ioc容器
+		//ClassPathXmlApplicationContext：当前应用配置的xml文件在ClassPathXmlApplicationContext
+		//根据spring配置文件得到ioc容器对象
+		ApplicationContext ioc = new ClassPathXmlApplicationContext("ioc.xml");
+		//容器帮我们创建好对象
+		Person bean = (Person) ioc.getBean("person01");
+		System.out.println(bean);
+	}
+
+}

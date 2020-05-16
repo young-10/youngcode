@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 实验13：基于XML的自动装配(自动赋值)
+	JavaBean（基本类型）
+			（自定义类型的属性是一个对象，这个对象在容器中可能存在-）
+		
+	  -->
+	<bean id="car" class="code.young.bean.Car">
+		<property name="carName" value="Benz"></property>
+		<property name="color" value="blue"></property>
+	</bean>
+	<bean id="book01" class="code.young.bean.book" >
+		<property name="bookName" value=bookName1></property>
+	</bean>
+	<bean id="book02" class="code.young.bean.book" >
+		<property name="bookName" value=bookName2></property>
+	</bean>
+	<bean id="book03" class="code.young.bean.book" >
+		<property name="bookName" value=bookName3></property>
+	</bean>
+	<!--为Person里面的自定义属性赋值】
+		property:手动赋值
+		自动装配：
+		autowire="default":不自动装配，不自动为car赋值
+		autowire="byName":按照名字
+		private Car car:以属性名作为id去容器中找到这个组件，给他赋值
+		autowire="byType"
+		private Car car:以属性的类型作为查找依据去容器中找到这个组件
+		car=ioc.getBean(Car.class),如果容器中有多个这个组件，会报错，没找到，会装配null
+		autowire="constructor"
+		1）先按照有参构造器的参数类型进行装配（成功就赋值），没有就直接为组件装配null
+		2）如果按照类型找到了多个，参数的名作为id继续装配，找到就装配，没有就装配null
+		autowire="no":不自动装配，不自动为car赋值
+	  -->
+	<bean id="person" class="code.young.bean.Person" autowire="byType">
+<!-- 		<property name="car" ref="car"></property> -->
+	</bean>
+</beans>

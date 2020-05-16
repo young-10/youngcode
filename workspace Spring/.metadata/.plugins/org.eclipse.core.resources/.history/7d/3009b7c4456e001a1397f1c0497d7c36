@@ -1,0 +1,5 @@
+package code.young.factory;
+
+public class MyFactoryBeanImpl {
+
+}

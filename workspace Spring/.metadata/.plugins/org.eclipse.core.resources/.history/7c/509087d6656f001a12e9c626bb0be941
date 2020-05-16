@@ -1,0 +1,10 @@
+package com.young.test;
+
+import org.junit.Test;
+
+public class AOPtest {
+	@Test
+	public void test() {
+	}
+
+}

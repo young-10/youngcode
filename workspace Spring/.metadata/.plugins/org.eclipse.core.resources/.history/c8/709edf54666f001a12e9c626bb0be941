@@ -1,0 +1,17 @@
+package com.young.test;
+
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.young.inter.Calculator;
+
+public class AOPtest {
+	ApplicationContext ioc = new ClassPathXmlApplicationContext("applicationContext.xml");
+	@Test
+	public void test() {
+		Calculator Calculator = ioc.getBean(Calculator.class);
+		Calculator.add(4, 5);
+	}
+
+}

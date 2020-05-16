@@ -1,0 +1,5 @@
+package com.young.bean;
+
+public class Employee {
+
+}

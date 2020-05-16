@@ -1,0 +1,9 @@
+package com.young.service;
+
+import org.springframework.stereotype.Service;
+
+import com.young.Bean.Book;
+@Service
+public class BookService extends BaseService<Book> {
+	
+}

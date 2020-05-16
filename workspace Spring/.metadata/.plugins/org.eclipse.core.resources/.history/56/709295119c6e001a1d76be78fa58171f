@@ -1,0 +1,14 @@
+package com.young.dao;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
+/**
+ * id默认类名首字母小写
+ * @author young
+ *
+ */
+@Repository
+//@Scope("prototype")//改变组件的作用域
+public class BookDao {
+
+}

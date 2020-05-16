@@ -1,0 +1,9 @@
+package com.young.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.young.Bean.User;
+@Repository
+public class UserDao extends BaseDao<User> {
+
+}

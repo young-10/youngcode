@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	<!-- 实验15：通过注解分别创建Dao、Service、Controller（控制器，控制网站跳转（servlet））★ 
+		通过给bean上添加某些注解，可以快速的将bean加入到ioc容器中
+		某个类上添加上任何一个注解都可以将这个组件快速的加入到ioc容器中
+		Spring有四个注解
+		@Controller 控制器：推荐给控制器层（servlet包下的这些）的组件加这个注解
+		@Service 业务逻辑：我们推荐给业务逻辑层添加这个注解，BookService
+		@Repository 给数据库层（持久层：dao层）的组件添加这个注解
+		@Component 给不属于以上几层的组件添加这个注解
+		注解可以随便加，spring底层不会去验证这个组件，是否如注解所说是dao层还是servlet层
+		推荐给各层加入各自注解，给程序员阅读
+		
+		使用注解将组件快速的加入到容器中需要一下几步：
+		1）给要添加的组件标上四个注解的任何一个
+		2）告诉Spring ，自动扫描增加的组件，依赖context名称空间
+	-->
+
+</beans>

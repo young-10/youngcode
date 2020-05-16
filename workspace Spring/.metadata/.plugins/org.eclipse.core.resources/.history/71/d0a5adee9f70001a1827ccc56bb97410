@@ -1,0 +1,22 @@
+package com.young.service;
+
+import com.young.dao.BookDao;
+
+public class BookService {
+	BookDao bookDao;
+
+	public void checkout(String username, String isbn) {
+		bookDao.updateStock(isbn);
+		int price = bookDao.getPrice(isbn);
+		bookDao.updatebalance(username, price);
+	}
+
+	public void updatePrice(String isbn, int price) {
+		bookDao.updatePrice(isbn, price);
+	}
+
+	public int getPrice(String isbn) {
+		return bookDao.getPrice(isbn);
+	}
+
+}

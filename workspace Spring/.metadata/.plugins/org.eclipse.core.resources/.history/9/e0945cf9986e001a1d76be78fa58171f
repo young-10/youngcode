@@ -1,0 +1,12 @@
+package com.young.dao;
+
+import org.springframework.stereotype.Repository;
+/**
+ * id默认类名首字母小写
+ * @author young
+ *
+ */
+@Repository("bookdaohahaha")
+public class BookDao {
+
+}
